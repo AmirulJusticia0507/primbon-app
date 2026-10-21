@@ -1,0 +1,35 @@
+{{ define "content" }}
+<div class="container">
+  <h2>🔮 Ramalan Jodoh Berdasarkan Primbon Jawa</h2>
+  <form action="/ramal" method="POST">
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Data Pria</h4>
+        <label>Hari</label>
+        <select name="hari_laki" class="form-control">
+          <option>Senin</option><option>Selasa</option><option>Rabu</option>
+          <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+        </select>
+        <label>Pasaran</label>
+        <select name="pasaran_laki" class="form-control">
+          <option>Legi</option><option>Pahing</option><option>Pon</option><option>Wage</option><option>Kliwon</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <h4>Data Wanita</h4>
+        <label>Hari</label>
+        <select name="hari_perempuan" class="form-control">
+          <option>Senin</option><option>Selasa</option><option>Rabu</option>
+          <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+        </select>
+        <label>Pasaran</label>
+        <select name="pasaran_perempuan" class="form-control">
+          <option>Legi</option><option>Pahing</option><option>Pon</option><option>Wage</option><option>Kliwon</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-3">Hitung Ramalan</button>
+  </form>
+</div>
+{{ end }}
