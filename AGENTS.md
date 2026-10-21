@@ -18,6 +18,7 @@ Panduan ini berlaku untuk seluruh proyek.
 5. Pertahankan bahasa Indonesia untuk teks UI. Jelaskan secara proporsional bahwa hasil primbon merupakan tradisi budaya.
 6. Jangan mengklaim fungsi selesai jika masih placeholder. Perbarui `README.md` dan `TODO.md` ketika status fitur atau cara menjalankan berubah.
 7. Perubahan skema database perlu disertai migrasi dan/atau instruksi seed yang dapat diulang.
+8. Setelah task selesai, tinjau perubahan, lalu buat commit dan push ke remote sesuai alur kerja repositori. Jangan menyertakan file yang tidak terkait.
 
 ## Verifikasi
 
