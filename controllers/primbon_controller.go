@@ -8,6 +8,7 @@ import (
 	"io/fs"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"primbon-app/internal/assets"
@@ -125,7 +126,42 @@ func petungQueryError(c *fiber.Ctx, err error) error {
 }
 
 func HariBaik(c *fiber.Ctx) error {
-	return renderHTML(c, "views/hari_baik.html", fiber.Map{
+	data := fiber.Map{
 		"Title": "Hitung Hari Baik",
-	})
+		"Today": time.Now().Format("2006-01-02"),
+	}
+	if c.Method() == fiber.MethodPost {
+		date, err := time.Parse("2006-01-02", c.FormValue("tanggal"))
+		if err != nil {
+			c.Status(fiber.StatusBadRequest)
+			data["Error"] = "Masukkan tanggal yang valid."
+			return renderHTML(c, "views/hari_baik.html", data)
+		}
+		hari, pasaran, neptuHari, neptuPasaran := WetonTanggal(date)
+		data["Tanggal"] = date.Format("Monday, 2 January 2006")
+		data["SelectedDate"] = date.Format("2006-01-02")
+		data["Hari"] = hari
+		data["Pasaran"] = pasaran
+		data["NeptuHari"] = neptuHari
+		data["NeptuPasaran"] = neptuPasaran
+		data["Total"] = neptuHari + neptuPasaran
+	}
+	return renderHTML(c, "views/hari_baik.html", data)
+}
+
+// WetonTanggal computes the Javanese weekday and five-day market cycle.
+// The pasaran anchor is Friday Legi on 2024-01-05.
+func WetonTanggal(date time.Time) (hari, pasaran string, neptuHari, neptuPasaran int) {
+	hariNames := []string{"Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"}
+	hariNeptu := []int{5, 4, 3, 7, 8, 6, 9}
+	pasaranNames := []string{"Legi", "Pahing", "Pon", "Wage", "Kliwon"}
+	pasaranNeptu := []int{5, 9, 7, 4, 8}
+
+	day := date.UTC().Weekday()
+	dayIndex := int(day)
+	anchor := time.Date(2024, time.January, 5, 0, 0, 0, 0, time.UTC)
+	selected := time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0, 0, time.UTC)
+	daysFromAnchor := int(selected.Sub(anchor).Hours() / 24)
+	marketIndex := ((daysFromAnchor % 5) + 5) % 5
+	return hariNames[dayIndex], pasaranNames[marketIndex], hariNeptu[dayIndex], pasaranNeptu[marketIndex]
 }

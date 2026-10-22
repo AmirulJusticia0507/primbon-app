@@ -13,7 +13,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 ## Prioritas menengah
 
 - [x] Pisahkan kalkulasi domain dari handler agar logika mudah diuji; gunakan model `Petung`/`HasilPrimbon` atau hapus tipe yang tidak dipakai.
-- [x] Tandai halaman dan navigasi “Hari Baik” dengan status “Segera hadir” karena kalkulasi belum tersedia.
+- [x] Tambahkan kalkulasi weton dan neptu tanggal pada halaman “Hari Baik”; tidak memberi rekomendasi tanpa kaidah tradisi yang dipilih.
 - [x] Tampilkan neptu masing-masing, total, dan sisa perhitungan pada halaman hasil; pastikan pemetaan sisa 0–6 terdokumentasi dan benar menurut aturan yang dipilih.
 - [x] Tambahkan navigasi dasar, label form yang terhubung ke input, dan pesan validasi/error yang mudah dipahami.
 - [x] Putuskan apakah static assets memang diperlukan: static lokal digunakan untuk favicon; mapping `/static` menyajikan aset aplikasi.

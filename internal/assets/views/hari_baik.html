@@ -1,19 +1,44 @@
 {{ define "content" }}
 <style>
-  .coming-soon { display: grid; min-height: 62vh; place-items: center; padding: 48px 20px; background: radial-gradient(ellipse at center, #e9eee5 0, transparent 60%); }
-  .coming-card { width: min(100%, 600px); padding: clamp(30px, 6vw, 56px); border: 1px solid #e6e5dc; border-radius: 18px; background: #fff; text-align: center; box-shadow: 0 18px 55px rgba(22,44,36,.08); }
-  .coming-icon { display: grid; width: 64px; height: 64px; margin: 0 auto 22px; place-items: center; border-radius: 50%; color: #d8b978; background: #183b32; font-size: 26px; }
-  .coming-card h1 { color: #183b32; font: 600 38px 'Playfair Display', Georgia, serif; }
-  .coming-card p { color: #718079; font-size: 14px; line-height: 1.8; }
-  .coming-label { display: inline-block; margin: 4px 0 14px; padding: 6px 12px; border: 1px solid #e5d7b5; border-radius: 20px; color: #856d3e !important; font-size: 10px !important; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .good-day-page { min-height: 68vh; padding: 48px 20px 68px; background: radial-gradient(ellipse at 50% 0, #e9eee5 0, transparent 60%); }
+  .good-day-card { width: min(100%, 680px); margin: auto; padding: clamp(28px, 6vw, 52px); border: 1px solid #e6e5dc; border-radius: 18px; background: #fff; box-shadow: 0 18px 55px rgba(22,44,36,.08); }
+  .good-day-card h1 { margin: 10px 0; color: #183b32; font: 600 clamp(32px, 5vw, 42px) 'Playfair Display', Georgia, serif; }
+  .good-day-intro, .good-day-note { color: #718079; font-size: 14px; line-height: 1.75; }
+  .good-day-form { display: flex; gap: 12px; align-items: end; margin: 28px 0; }
+  .good-day-form label { display: block; margin-bottom: 7px; color: #526159; font-size: 12px; font-weight: 600; }
+  .good-day-form input { min-height: 48px; padding: 0 12px; border: 1px solid #dfe3dc; border-radius: 8px; color: #24332e; font: inherit; }
+  .good-day-form input[type=date] { flex: 1; }
+  .good-day-form button { min-height: 48px; padding: 0 20px; border: 0; border-radius: 8px; color: #fff; background: #1d493a; font-weight: 600; cursor: pointer; }
+  .good-day-error { padding: 12px 15px; border-radius: 8px; color: #843f32; background: #fff0eb; font-size: 14px; }
+  .weton-result { margin: 24px 0; padding: 22px; border-radius: 12px; background: #f7f6f1; }
+  .weton-result h2 { margin: 0 0 18px; color: #183b32; font: 600 26px 'Playfair Display', Georgia, serif; }
+  .weton-stats { display: flex; justify-content: center; gap: 12px; }
+  .weton-stat { flex: 1; padding: 13px 8px; border-radius: 8px; background: #fff; }
+  .weton-stat span { display: block; color: #7b877f; font-size: 11px; }
+  .weton-stat strong { display: block; margin-top: 5px; color: #214a3c; font-size: 19px; }
+  @media(max-width:520px) { .good-day-form { align-items: stretch; flex-direction: column; } }
 </style>
-<section class="coming-soon">
-  <div class="coming-card">
-    <div class="coming-icon" aria-hidden="true">✦</div>
-    <p class="coming-label">Segera hadir</p>
-    <h1>Hari Baik</h1>
-    <p>Ruang untuk mengenal tradisi pemilihan hari baik sedang kami siapkan. Saat ini halaman ini belum memberikan hasil atau rekomendasi hari.</p>
-    <a href="/" class="back-link">Kembali ke beranda</a>
-  </div>
+<section class="good-day-page">
+  <article class="good-day-card">
+    <div class="eyebrow">Kalender tradisi Jawa</div>
+    <h1>Weton sebuah tanggal</h1>
+    <p class="good-day-intro">Pilih tanggal untuk melihat hari, pasaran, dan neptunya menurut siklus kalender Jawa.</p>
+    {{ if .Error }}<p class="good-day-error" role="alert">{{ .Error }}</p>{{ end }}
+    <form class="good-day-form" action="/hari-baik" method="POST">
+      <div style="flex:1"><label for="tanggal">Pilih tanggal</label><input id="tanggal" name="tanggal" type="date" value="{{ if .Tanggal }}{{ .SelectedDate }}{{ else }}{{ .Today }}{{ end }}" required></div>
+      <button type="submit">Hitung weton</button>
+    </form>
+    {{ if .Hari }}
+    <div class="weton-result" aria-live="polite">
+      <h2>{{ .Hari }} {{ .Pasaran }}</h2>
+      <div class="weton-stats">
+        <div class="weton-stat"><span>Neptu hari</span><strong>{{ .NeptuHari }}</strong></div>
+        <div class="weton-stat"><span>Neptu pasaran</span><strong>{{ .NeptuPasaran }}</strong></div>
+        <div class="weton-stat"><span>Total neptu</span><strong>{{ .Total }}</strong></div>
+      </div>
+    </div>
+    {{ end }}
+    <p class="good-day-note">Perhitungan ini menunjukkan weton dan neptu tanggal, bukan penilaian atau rekomendasi bahwa suatu hari “baik”. Penentuan hari baik memiliki kaidah yang beragam dalam tradisi Jawa; hasil ini bukan prediksi ilmiah.</p>
+  </article>
 </section>
 {{ end }}

@@ -13,6 +13,7 @@ import (
 	"strings"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -110,6 +111,19 @@ func TestHitungHasilSemuaSisa(t *testing.T) {
 				t.Fatalf("HitungHasil(%d, 0) = (%d, %d, %q)", tc.sisa, total, sisa, hasil)
 			}
 		})
+	}
+}
+
+func TestWetonTanggalAnchorAndFollowingDay(t *testing.T) {
+	friday := time.Date(2024, time.January, 5, 0, 0, 0, 0, time.UTC)
+	day, market, dayValue, marketValue := WetonTanggal(friday)
+	if day != "Jumat" || market != "Legi" || dayValue != 6 || marketValue != 5 {
+		t.Fatalf("anchor = %s %s (%d,%d), want Jumat Legi (6,5)", day, market, dayValue, marketValue)
+	}
+	saturday := friday.AddDate(0, 0, 1)
+	day, market, _, _ = WetonTanggal(saturday)
+	if day != "Sabtu" || market != "Pahing" {
+		t.Fatalf("following day = %s %s, want Sabtu Pahing", day, market)
 	}
 }
 

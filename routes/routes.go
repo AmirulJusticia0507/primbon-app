@@ -56,6 +56,7 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 		return controllers.RamalJodoh(c, db)
 	})
 	app.Get("/hari-baik", controllers.HariBaik)
+	app.Post("/hari-baik", controllers.HariBaik)
 	app.Post("/api/ai/chat", func(c *fiber.Ctx) error {
 		return controllers.AIChat(c, os.Getenv("AI_API_KEY"), os.Getenv("AI_MODEL"))
 	})
