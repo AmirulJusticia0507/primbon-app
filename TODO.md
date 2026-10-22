@@ -23,7 +23,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 
 - [x] Tambahkan konfigurasi Fiber yang eksplisit, endpoint health check, serta penanganan 404/500.
 - [x] Tambahkan pipeline CI untuk `gofmt`, `go vet ./...`, dan `go test ./...`.
-- [ ] Pertimbangkan menyimpan dependensi UI secara lokal atau mendokumentasikan kebutuhan konektivitas CDN.
+- [x] Dokumentasikan kebutuhan konektivitas CDN untuk dependensi UI; AdminLTE tetap disajikan dari CDN.
 - [ ] Lengkapi dokumentasi skema, langkah pengembangan, dan troubleshooting setelah migrasi/seed tersedia.
 
 ## Temuan saat peninjauan

@@ -15,7 +15,11 @@ Aplikasi web sederhana berbasis Go untuk menghitung kecocokan pasangan menurut n
 - Go 1.24.5 (sesuai `go.mod`)
 - Fiber v2
 - PostgreSQL melalui `database/sql` dan `lib/pq`
-- Template HTML Go; AdminLTE dimuat dari CDN
+- Template HTML Go; AdminLTE dimuat dari CDN jsDelivr
+
+### Konektivitas aset UI
+
+AdminLTE CSS dan JavaScript dimuat dari CDN jsDelivr (tautan versi 3.2 di `views/layouts/base.html`), bukan disimpan lokal. Pengguna memerlukan konektivitas internet agar styling dan skrip AdminLTE tersedia. Jika CDN tidak dapat diakses, konten HTML tetap disajikan tetapi tampil tanpa styling/fitur AdminLTE. Saat ini tidak ada fallback lokal.
 
 ## Prasyarat
 
