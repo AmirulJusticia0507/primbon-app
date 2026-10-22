@@ -3,6 +3,7 @@ package config
 import (
 	"database/sql"
 	"fmt"
+	"net"
 	"net/url"
 	"os"
 	"strconv"
@@ -72,11 +73,12 @@ func databaseConfigFromEnv(getenv func(string) string) (databaseConfig, error) {
 
 func (config databaseConfig) connectionString() string {
 	values := url.Values{}
-	values.Set("host", config.host)
-	values.Set("port", strconv.Itoa(config.port))
-	values.Set("user", config.user)
-	values.Set("password", config.password)
-	values.Set("dbname", config.database)
 	values.Set("sslmode", config.sslmode)
-	return values.Encode()
+	return (&url.URL{
+		Scheme:   "postgres",
+		User:     url.UserPassword(config.user, config.password),
+		Host:     net.JoinHostPort(config.host, strconv.Itoa(config.port)),
+		Path:     "/" + config.database,
+		RawQuery: values.Encode(),
+	}).String()
 }
