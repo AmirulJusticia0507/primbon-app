@@ -26,6 +26,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 - [x] Dokumentasikan kebutuhan konektivitas CDN untuk dependensi UI; AdminLTE tetap disajikan dari CDN.
 - [x] Lengkapi dokumentasi skema, langkah pengembangan, dan troubleshooting untuk skema/seed.
 - [ ] Integrasi Griphub chat telah dibuat sebagai fitur opsional; validasi dengan kredensial/model nyata setelah operator menyediakan keduanya.
+- [x] Sediakan `.env` lokal yang diabaikan Git dan `.env.example`; muat konfigurasi dotenv saat startup.
 
 ## Temuan saat peninjauan
 

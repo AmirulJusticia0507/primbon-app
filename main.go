@@ -9,12 +9,17 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
+
 	"primbon-app/config"
 	"primbon-app/routes"
 )
 
 func main() {
 	logger := log.New(os.Stderr, "primbon-app ", log.LstdFlags|log.LUTC)
+	if err := godotenv.Load(); err != nil && !errors.Is(err, os.ErrNotExist) {
+		logger.Fatalf("gagal membaca file .env: %v", err)
+	}
 	db, err := config.InitDB()
 	if err != nil {
 		logger.Fatalf("gagal menginisialisasi database: %v", err)

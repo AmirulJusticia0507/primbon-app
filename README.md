@@ -45,15 +45,12 @@ Semua variabel divalidasi saat startup; aplikasi berhenti dengan pesan kesalahan
 
 Fitur Tanya AI tidak wajib untuk menjalankan aplikasi. Untuk mengaktifkannya, atur `AI_API_KEY` dan `AI_MODEL` pada environment proses aplikasi. Jangan masukkan key ke source control. Tanpa konfigurasi tersebut, endpoint AI memberi tahu bahwa fitur belum dikonfigurasi.
 
-Contoh PowerShell untuk sesi terminal saat ini:
+Saat development, salin `.env.example` menjadi `.env` di root proyek dan isi konfigurasi lokal. File `.env` dimuat otomatis saat startup dan diabaikan oleh Git; jangan pernah menghapusnya dari `.gitignore` atau memasukkan API key ke source control. Environment variable yang sudah disetel pada proses tetap mengungguli nilai file `.env`.
+
+Contoh PowerShell untuk menyalin template:
 
 ```powershell
-$env:DB_HOST = "localhost"
-$env:DB_PORT = "5432"
-$env:DB_USER = "postgres"
-$env:DB_PASSWORD = "isi-password-lokal"
-$env:DB_NAME = "primbon_db"
-$env:DB_SSLMODE = "disable"
+Copy-Item .env.example .env
 ```
 
 ### Skema dan seed
