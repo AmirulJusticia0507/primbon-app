@@ -63,7 +63,7 @@ go mod download
 go run .
 ```
 
-Server mendengarkan pada `http://localhost:8080`. Buka `/` untuk formulir dan `/hari-baik` untuk halaman fitur yang belum selesai. Pastikan PostgreSQL dan tabel `petung` siap lebih dahulu; aplikasi akan berhenti jika koneksi database gagal.
+Server mendengarkan pada `http://localhost:8080`. Buka `/` untuk formulir dan `/hari-baik` untuk melihat status fitur yang segera hadir. Pastikan PostgreSQL dan tabel `petung` siap lebih dahulu; aplikasi akan berhenti jika koneksi database gagal. Saat menerima SIGINT/SIGTERM server menjalankan graceful shutdown dengan batas waktu 10 detik, kemudian koneksi database ditutup.
 
 ## Pemeriksaan
 
@@ -71,7 +71,7 @@ Server mendengarkan pada `http://localhost:8080`. Buka `/` untuk formulir dan `/
 go test ./...
 ```
 
-Saat dokumentasi ini dibuat, perintah berhasil tetapi seluruh paket belum memiliki file test.
+Test mencakup kalkulasi dan handler; beberapa paket belum memiliki test tersendiri.
 
 ## Struktur proyek
 

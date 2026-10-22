@@ -1,20 +1,53 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
 	"primbon-app/config"
 	"primbon-app/routes"
 )
 
 func main() {
+	logger := log.New(os.Stderr, "primbon-app ", log.LstdFlags|log.LUTC)
 	db, err := config.InitDB()
 	if err != nil {
-		log.Fatal("❌ Gagal menginisialisasi database:", err)
+		logger.Fatalf("gagal menginisialisasi database: %v", err)
 	}
-	defer db.Close()
+	defer func() {
+		if err := db.Close(); err != nil {
+			logger.Printf("gagal menutup koneksi database: %v", err)
+		}
+	}()
 
 	app := routes.SetupRoutes(db)
+	serverErrors := make(chan error, 1)
+	go func() {
+		logger.Println("server berjalan pada http://localhost:8080")
+		serverErrors <- app.Listen(":8080")
+	}()
 
-	log.Println("🚀 Server running at http://localhost:8080")
-	app.Listen(":8080")
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
+	defer signal.Stop(signals)
+
+	select {
+	case sig := <-signals:
+		logger.Printf("menerima sinyal %s; mematikan server", sig)
+	case err := <-serverErrors:
+		if err != nil && !errors.Is(err, context.Canceled) {
+			logger.Printf("server berhenti dengan error: %v", err)
+		}
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := app.ShutdownWithContext(ctx); err != nil {
+		logger.Printf("shutdown server tidak selesai dengan tertib: %v", err)
+	}
 }

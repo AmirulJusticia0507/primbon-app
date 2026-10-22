@@ -17,7 +17,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 - [x] Tampilkan neptu masing-masing, total, dan sisa perhitungan pada halaman hasil; pastikan pemetaan sisa 0–6 terdokumentasi dan benar menurut aturan yang dipilih.
 - [x] Tambahkan navigasi dasar, label form yang terhubung ke input, dan pesan validasi/error yang mudah dipahami.
 - [x] Putuskan apakah static assets memang diperlukan: mapping `/static` yang belum digunakan dihapus; UI tetap menggunakan CDN.
-- [ ] Tambahkan logging dan shutdown/penutupan koneksi database dengan tertib.
+- [x] Tambahkan logging dan shutdown/penutupan koneksi database dengan tertib.
 
 ## Operasional dan kualitas
 
