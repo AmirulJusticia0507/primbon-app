@@ -23,13 +23,15 @@ func main() {
 	}
 	db, err := config.InitDB()
 	if err != nil {
-		logger.Fatalf("gagal menginisialisasi database: %v", err)
+		logger.Printf("database belum tersedia; halaman tetap dijalankan, fitur perhitungan dinonaktifkan: %v", err)
 	}
-	defer func() {
-		if err := db.Close(); err != nil {
-			logger.Printf("gagal menutup koneksi database: %v", err)
-		}
-	}()
+	if db != nil {
+		defer func() {
+			if err := db.Close(); err != nil {
+				logger.Printf("gagal menutup koneksi database: %v", err)
+			}
+		}()
+	}
 
 	app := routes.SetupRoutes(db)
 	port := os.Getenv("PORT")

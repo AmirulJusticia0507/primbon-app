@@ -32,6 +32,9 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 	app.Static("/static", "./static")
 	app.Get("/", controllers.Home)
 	app.Post("/ramal", func(c *fiber.Ctx) error {
+		if db == nil {
+			return c.Status(fiber.StatusServiceUnavailable).SendString("Kalkulator sementara tidak tersedia karena database belum dikonfigurasi.")
+		}
 		return controllers.RamalJodoh(c, db)
 	})
 	app.Get("/hari-baik", controllers.HariBaik)
@@ -42,6 +45,9 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 		return c.Redirect("/static/favicon.svg", fiber.StatusMovedPermanently)
 	})
 	app.Get("/health", func(c *fiber.Ctx) error {
+		if db == nil {
+			return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"status": "database belum dikonfigurasi"})
+		}
 		if err := db.PingContext(c.UserContext()); err != nil {
 			log.Printf("health check database gagal: %v", err)
 			return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"status": "tidak sehat"})
