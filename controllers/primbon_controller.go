@@ -3,8 +3,11 @@ package controllers
 import (
 	"bytes"
 	"database/sql"
-	"github.com/gofiber/fiber/v2"
+	"errors"
 	"html/template"
+	"log"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func renderHTML(c *fiber.Ctx, tmpl string, data interface{}) error {
@@ -32,8 +35,12 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 	pasaranP := c.FormValue("pasaran_perempuan")
 
 	var neptuL, neptuP int
-	db.QueryRow(`SELECT nilai_hari + nilai_pasaran FROM petung WHERE hari=$1 AND pasaran=$2`, hariL, pasaranL).Scan(&neptuL)
-	db.QueryRow(`SELECT nilai_hari + nilai_pasaran FROM petung WHERE hari=$1 AND pasaran=$2`, hariP, pasaranP).Scan(&neptuP)
+	if err := db.QueryRow(`SELECT nilai_hari + nilai_pasaran FROM petung WHERE hari=$1 AND pasaran=$2`, hariL, pasaranL).Scan(&neptuL); err != nil {
+		return petungQueryError(c, err)
+	}
+	if err := db.QueryRow(`SELECT nilai_hari + nilai_pasaran FROM petung WHERE hari=$1 AND pasaran=$2`, hariP, pasaranP).Scan(&neptuP); err != nil {
+		return petungQueryError(c, err)
+	}
 
 	total := neptuL + neptuP
 	sisa := total % 7
@@ -57,13 +64,21 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 	}
 
 	return renderHTML(c, "views/ramalan.html", fiber.Map{
-		"Title": "Hasil Ramalan Jodoh",
-		"Hasil": hasil,
+		"Title":  "Hasil Ramalan Jodoh",
+		"Hasil":  hasil,
 		"NeptuL": neptuL,
 		"NeptuP": neptuP,
 		"Total":  total,
 		"Sisa":   sisa,
 	})
+}
+
+func petungQueryError(c *fiber.Ctx, err error) error {
+	if errors.Is(err, sql.ErrNoRows) {
+		return c.Status(fiber.StatusBadRequest).SendString("Kombinasi hari dan pasaran tidak ditemukan. Periksa kembali data weton.")
+	}
+	log.Printf("gagal mengambil data petung: %v", err)
+	return c.Status(fiber.StatusInternalServerError).SendString("Terjadi kesalahan saat menghitung weton. Silakan coba lagi nanti.")
 }
 
 func HariBaik(c *fiber.Ctx) error {
