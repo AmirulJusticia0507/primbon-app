@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"database/sql"
 	"errors"
+	"fmt"
 	"html/template"
 	"io/fs"
-	"log"
 	"strings"
 	"time"
 
@@ -51,10 +51,10 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 
 	var neptuL, neptuP int
 	if err := db.QueryRow(`SELECT nilai_hari + nilai_pasaran FROM petung WHERE hari=$1 AND pasaran=$2`, hariL, pasaranL).Scan(&neptuL); err != nil {
-		return petungQueryError(c, err)
+		return petungQueryError(c, err, hariL, pasaranL)
 	}
 	if err := db.QueryRow(`SELECT nilai_hari + nilai_pasaran FROM petung WHERE hari=$1 AND pasaran=$2`, hariP, pasaranP).Scan(&neptuP); err != nil {
-		return petungQueryError(c, err)
+		return petungQueryError(c, err, hariP, pasaranP)
 	}
 
 	total, sisa, hasil := HitungHasil(neptuL, neptuP)
@@ -109,7 +109,7 @@ func pasaranValid(pasaran string) bool {
 	}
 }
 
-func petungQueryError(c *fiber.Ctx, err error) error {
+func petungQueryError(c *fiber.Ctx, err error, hari, pasaran string) error {
 	if errors.Is(err, sql.ErrNoRows) {
 		c.Status(fiber.StatusBadRequest)
 		return renderHTML(c, "views/home.html", fiber.Map{
@@ -117,11 +117,11 @@ func petungQueryError(c *fiber.Ctx, err error) error {
 			"Error": "Kombinasi hari dan pasaran tidak ditemukan. Pastikan data petung sudah disiapkan.",
 		})
 	}
-	log.Printf("gagal mengambil data petung: %v", err)
+	c.Context().Logger().Printf("gagal mengambil petung untuk %s %s: %v", hari, pasaran, err)
 	c.Status(fiber.StatusInternalServerError)
 	return renderHTML(c, "views/home.html", fiber.Map{
 		"Title": "Ramalan Primbon Jawa",
-		"Error": "Data perhitungan tidak dapat diakses saat ini. Silakan coba lagi nanti.",
+		"Error": fmt.Sprintf("Data untuk weton %s %s gagal dibaca. Data tersebut mungkin belum tersedia atau layanan database sedang bermasalah.", hari, pasaran),
 	})
 }
 

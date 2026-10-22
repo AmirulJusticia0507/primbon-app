@@ -175,8 +175,8 @@ func TestRamalJodohDatabaseError(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(string(body), "Data perhitungan tidak dapat diakses") {
-		t.Errorf("pesan respons tidak menjelaskan kegagalan database: %s", body)
+	if !strings.Contains(string(body), "weton Senin Legi") {
+		t.Errorf("pesan respons tidak menyebut kombinasi yang bermasalah: %s", body)
 	}
 	if strings.Contains(string(body), "database tidak tersedia") {
 		t.Error("detail error database tidak boleh dikirim ke pengguna")
