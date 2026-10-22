@@ -42,6 +42,9 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 			if err != nil {
 				return fiber.ErrNotFound
 			}
+			if strings.HasSuffix(filePath, ".svg") {
+				c.Set("Content-Type", "image/svg+xml")
+			}
 			return c.Send(data)
 		})
 	}
@@ -57,7 +60,16 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 		return controllers.AIChat(c, os.Getenv("AI_API_KEY"), os.Getenv("AI_MODEL"))
 	})
 	app.Get("/favicon.svg", func(c *fiber.Ctx) error {
-		return c.Redirect("/static/favicon.svg", fiber.StatusMovedPermanently)
+		data, err := fs.ReadFile(assets.Files, "static/favicon.svg")
+		if err != nil {
+			return fiber.ErrNotFound
+		}
+		c.Set("Content-Type", "image/svg+xml")
+		c.Set("Cache-Control", "public, max-age=86400")
+		return c.Send(data)
+	})
+	app.Get("/favicon.ico", func(c *fiber.Ctx) error {
+		return c.Redirect("/favicon.svg?v=2", fiber.StatusTemporaryRedirect)
 	})
 	app.Get("/health", func(c *fiber.Ctx) error {
 		if db == nil {
