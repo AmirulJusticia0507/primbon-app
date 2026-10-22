@@ -7,7 +7,12 @@ import (
 )
 
 func main() {
-	db := config.InitDB()
+	db, err := config.InitDB()
+	if err != nil {
+		log.Fatal("❌ Gagal menginisialisasi database:", err)
+	}
+	defer db.Close()
+
 	app := routes.SetupRoutes(db)
 
 	log.Println("🚀 Server running at http://localhost:8080")

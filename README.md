@@ -21,11 +21,33 @@ Aplikasi web sederhana berbasis Go untuk menghitung kecocokan pasangan menurut n
 
 1. Go 1.24.5 atau versi kompatibel.
 2. PostgreSQL berjalan dan dapat diakses aplikasi.
-3. Database `primbon_db` memiliki tabel `petung` berisi kolom `hari`, `pasaran`, `nilai_hari`, dan `nilai_pasaran`, dengan satu baris untuk setiap kombinasi hari/pasaran (35 kombinasi). Belum tersedia berkas migrasi atau seed; siapkan skema dan data tersebut sebelum menjalankan aplikasi.
+3. Database memiliki tabel `petung` berisi kolom `hari`, `pasaran`, `nilai_hari`, dan `nilai_pasaran`, dengan satu baris untuk setiap kombinasi hari/pasaran (35 kombinasi). Belum tersedia berkas migrasi atau seed; siapkan skema dan data tersebut sebelum menjalankan aplikasi.
 
 ## Menjalankan
 
-Saat ini koneksi database diatur langsung di `config/database.go`: host `localhost`, port `5432`, user `postgres`, password `admin`, dan database `primbon_db`. Sesuaikan nilai itu dengan lingkungan lokal sebelum menjalankan.
+Konfigurasi PostgreSQL wajib diberikan melalui environment variable berikut (tidak ada kredensial default di source):
+
+| Variabel | Keterangan | Contoh |
+| --- | --- | --- |
+| `DB_HOST` | Host PostgreSQL | `localhost` |
+| `DB_PORT` | Port (1–65535) | `5432` |
+| `DB_USER` | Pengguna database | `postgres` |
+| `DB_PASSWORD` | Kata sandi database | *(isi lokal, jangan commit)* |
+| `DB_NAME` | Nama database | `primbon_db` |
+| `DB_SSLMODE` | Mode SSL PostgreSQL (`disable`, `require`, `verify-ca`, `verify-full`, `allow`, `prefer`) | `disable` |
+
+Semua variabel divalidasi saat startup; aplikasi berhenti dengan pesan kesalahan jika konfigurasi tidak lengkap/tidak valid atau database tidak dapat dihubungi.
+
+Contoh PowerShell untuk sesi terminal saat ini:
+
+```powershell
+$env:DB_HOST = "localhost"
+$env:DB_PORT = "5432"
+$env:DB_USER = "postgres"
+$env:DB_PASSWORD = "isi-password-lokal"
+$env:DB_NAME = "primbon_db"
+$env:DB_SSLMODE = "disable"
+```
 
 ```sh
 go mod download
