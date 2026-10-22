@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"net"
 	"os"
 	"os/signal"
 	"syscall"
@@ -31,10 +32,18 @@ func main() {
 	}()
 
 	app := routes.SetupRoutes(db)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	listener, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		logger.Fatalf("gagal membuka port %s: %v", port, err)
+	}
 	serverErrors := make(chan error, 1)
 	go func() {
-		logger.Println("server berjalan pada http://localhost:8080")
-		serverErrors <- app.Listen(":8080")
+		logger.Printf("server berjalan pada port %s", port)
+		serverErrors <- app.Listener(listener)
 	}()
 
 	signals := make(chan os.Signal, 1)

@@ -81,6 +81,10 @@ Perintah development utama adalah `task dev`; task tersebut menjalankan `go run 
 
 Server mendengarkan pada `http://localhost:8080`. Buka `/` untuk formulir dan `/hari-baik` untuk melihat status fitur yang segera hadir. Endpoint `GET /health` memeriksa koneksi database dan mengembalikan HTTP 503 jika tidak sehat. Pastikan PostgreSQL dan tabel `petung` siap lebih dahulu; aplikasi akan berhenti jika koneksi database gagal. Saat menerima SIGINT/SIGTERM server menjalankan graceful shutdown dengan batas waktu 10 detik, kemudian koneksi database ditutup.
 
+### Deployment ke Vercel
+
+Project menyertakan `vercel.json` untuk preset Go dan server membaca `PORT` dari environment Vercel (default lokal `8080`). Tautkan repository melalui dashboard Vercel atau jalankan `vercel link`, lalu tambahkan `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSLMODE`, `AI_API_KEY`, dan `AI_MODEL` pada Project Settings → Environment Variables sesuai kebutuhan. Database PostgreSQL harus dapat dijangkau dari Vercel (gunakan layanan managed dengan koneksi TLS, bukan `localhost`). File `.env` lokal tidak diunggah. Setelah project terhubung dan environment variables tersedia, deploy dengan `vercel --prod`.
+
 ## Pemeriksaan
 
 ```sh
