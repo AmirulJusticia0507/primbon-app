@@ -28,11 +28,15 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 		},
 	})
 
+	app.Static("/static", "./static")
 	app.Get("/", controllers.Home)
 	app.Post("/ramal", func(c *fiber.Ctx) error {
 		return controllers.RamalJodoh(c, db)
 	})
 	app.Get("/hari-baik", controllers.HariBaik)
+	app.Get("/favicon.svg", func(c *fiber.Ctx) error {
+		return c.Redirect("/static/favicon.svg", fiber.StatusMovedPermanently)
+	})
 	app.Get("/health", func(c *fiber.Ctx) error {
 		if err := db.PingContext(c.UserContext()); err != nil {
 			log.Printf("health check database gagal: %v", err)

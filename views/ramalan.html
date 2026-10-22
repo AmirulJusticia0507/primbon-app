@@ -1,12 +1,35 @@
 {{ define "content" }}
-<div class="container text-center">
-  <h3 class="mb-3">🔮 Hasil Ramalan Jodoh</h3>
-  <p>Neptu orang pertama: <strong>{{ .NeptuL }}</strong></p>
-  <p>Neptu orang kedua: <strong>{{ .NeptuP }}</strong></p>
-  <p>Total Neptu: <strong>{{ .Total }}</strong></p>
-  <p>Sisa pembagian total dengan 7: <strong>{{ .Sisa }}</strong></p>
-  <p class="text-success h4">{{ .Hasil }}</p>
-  <p class="text-muted">Hasil ini merupakan bagian dari tradisi budaya primbon Jawa, bukan prediksi ilmiah atau nasihat profesional.</p>
-  <a href="/" class="btn btn-secondary mt-3">Kembali</a>
-</div>
+<style>
+  .result-page { min-height: 70vh; padding: 64px 20px; background: radial-gradient(ellipse at 50% 0, #e9eee5, transparent 56%); }
+  .result-card { width: min(100%, 650px); margin: auto; padding: clamp(28px, 6vw, 54px); border: 1px solid #e6e5dc; border-radius: 18px; background: #fff; box-shadow: 0 18px 55px rgba(22,44,36,.08); text-align: center; }
+  .result-kicker { color: #8d7442; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .result-card h1 { margin: 12px 0 30px; color: #183b32; font: 600 clamp(30px, 5vw, 42px) 'Playfair Display', Georgia, serif; }
+  .neptu-row { display: flex; justify-content: center; gap: 14px; margin-bottom: 20px; }
+  .neptu-item { flex: 1; padding: 16px 10px; border-radius: 10px; background: #f7f6f1; }
+  .neptu-label { display: block; color: #7b877f; font-size: 11px; }
+  .neptu-value { display: block; margin-top: 5px; color: #214a3c; font: 700 25px 'Playfair Display', Georgia, serif; }
+  .total-line { margin: 0; color: #65736b; font-size: 13px; }
+  .total-line strong { color: #183b32; }
+  .result-divider { width: 48px; height: 2px; margin: 26px auto; background: #d8b978; }
+  .result-name { margin: 0; color: #183b32; font: 600 26px 'Playfair Display', Georgia, serif; }
+  .result-note { margin: 20px 0 0; color: #87928a; font-size: 12px; line-height: 1.7; }
+  .back-link { display: inline-block; margin-top: 28px; padding: 12px 20px; border-radius: 8px; color: #fff; background: #1d493a; font-size: 13px; font-weight: 600; text-decoration: none; }
+  .back-link:hover { color: #fff; background: #12372b; }
+  @media (max-width: 420px) { .neptu-row { gap: 8px; } }
+</style>
+<section class="result-page">
+  <article class="result-card">
+    <div class="result-kicker">Hasil pembacaan weton</div>
+    <h1>Perhitungan kecocokan</h1>
+    <div class="neptu-row">
+      <div class="neptu-item"><span class="neptu-label">Orang pertama</span><strong class="neptu-value">{{ .NeptuL }}</strong></div>
+      <div class="neptu-item"><span class="neptu-label">Orang kedua</span><strong class="neptu-value">{{ .NeptuP }}</strong></div>
+    </div>
+    <p class="total-line">Total neptu <strong>{{ .Total }}</strong> &nbsp;·&nbsp; Sisa dibagi 7 <strong>{{ .Sisa }}</strong></p>
+    <div class="result-divider"></div>
+    <h2 class="result-name">{{ .Hasil }}</h2>
+    <p class="result-note">Hasil ini merupakan bagian dari tradisi budaya primbon Jawa, bukan prediksi ilmiah atau nasihat profesional.</p>
+    <a href="/" class="back-link">← Hitung kembali</a>
+  </article>
+</section>
 {{ end }}

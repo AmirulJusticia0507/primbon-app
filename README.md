@@ -19,7 +19,7 @@ Aplikasi web sederhana berbasis Go untuk menghitung kecocokan pasangan menurut n
 
 ### Konektivitas aset UI
 
-AdminLTE CSS dan JavaScript dimuat dari CDN jsDelivr (tautan versi 3.2 di `views/layouts/base.html`), bukan disimpan lokal. Pengguna memerlukan konektivitas internet agar styling dan skrip AdminLTE tersedia. Jika CDN tidak dapat diakses, konten HTML tetap disajikan tetapi tampil tanpa styling/fitur AdminLTE. Saat ini tidak ada fallback lokal.
+AdminLTE CSS dan Google Fonts dimuat dari CDN jsDelivr/Google Fonts, bukan disimpan lokal. Pengguna memerlukan konektivitas internet agar library UI dan tipografi tersedia; jika CDN tidak dapat dijangkau, halaman tetap dapat digunakan dengan fallback font sistem dan styling inti lokal, tetapi AdminLTE tidak dimuat. Favicon SVG disajikan lokal dari `static/`.
 
 ## Prasyarat
 

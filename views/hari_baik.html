@@ -1,8 +1,19 @@
 {{ define "content" }}
-<div class="container text-center">
-  <h3>📅 Hari Baik</h3>
-  <p class="badge badge-secondary">Segera hadir</p>
-  <p>Fitur perhitungan hari baik belum tersedia. Halaman ini belum memberikan hasil atau rekomendasi hari.</p>
-  <a href="/" class="btn btn-primary mt-3">Kembali ke Beranda</a>
-</div>
+<style>
+  .coming-soon { display: grid; min-height: 62vh; place-items: center; padding: 48px 20px; background: radial-gradient(ellipse at center, #e9eee5 0, transparent 60%); }
+  .coming-card { width: min(100%, 600px); padding: clamp(30px, 6vw, 56px); border: 1px solid #e6e5dc; border-radius: 18px; background: #fff; text-align: center; box-shadow: 0 18px 55px rgba(22,44,36,.08); }
+  .coming-icon { display: grid; width: 64px; height: 64px; margin: 0 auto 22px; place-items: center; border-radius: 50%; color: #d8b978; background: #183b32; font-size: 26px; }
+  .coming-card h1 { color: #183b32; font: 600 38px 'Playfair Display', Georgia, serif; }
+  .coming-card p { color: #718079; font-size: 14px; line-height: 1.8; }
+  .coming-label { display: inline-block; margin: 4px 0 14px; padding: 6px 12px; border: 1px solid #e5d7b5; border-radius: 20px; color: #856d3e !important; font-size: 10px !important; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+</style>
+<section class="coming-soon">
+  <div class="coming-card">
+    <div class="coming-icon" aria-hidden="true">✦</div>
+    <p class="coming-label">Segera hadir</p>
+    <h1>Hari Baik</h1>
+    <p>Ruang untuk mengenal tradisi pemilihan hari baik sedang kami siapkan. Saat ini halaman ini belum memberikan hasil atau rekomendasi hari.</p>
+    <a href="/" class="back-link">Kembali ke beranda</a>
+  </div>
+</section>
 {{ end }}

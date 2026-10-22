@@ -141,7 +141,7 @@ func TestRamalJodohInputValid(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, want := range []string{"Neptu orang pertama:", "Neptu orang kedua:", "Total Neptu:", "18", "Sisa pembagian total dengan 7:", "Sumur Sinaba"} {
+	for _, want := range []string{"Orang pertama", "Orang kedua", "Total neptu", "18", "Sisa dibagi 7", "Sumur Sinaba"} {
 		if !strings.Contains(string(body), want) {
 			t.Errorf("response body tidak memuat %q", want)
 		}
