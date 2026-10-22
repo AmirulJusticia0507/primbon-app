@@ -21,7 +21,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 
 ## Operasional dan kualitas
 
-- [ ] Tambahkan konfigurasi Fiber yang eksplisit, endpoint health check, serta penanganan 404/500.
+- [x] Tambahkan konfigurasi Fiber yang eksplisit, endpoint health check, serta penanganan 404/500.
 - [ ] Tambahkan pemeriksaan dependency dan pipeline CI untuk `gofmt`, `go vet ./...`, dan `go test ./...`.
 - [ ] Pertimbangkan menyimpan dependensi UI secara lokal atau mendokumentasikan kebutuhan konektivitas CDN.
 - [ ] Lengkapi dokumentasi skema, langkah pengembangan, dan troubleshooting setelah migrasi/seed tersedia.
