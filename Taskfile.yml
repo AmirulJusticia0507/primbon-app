@@ -1,6 +1,12 @@
 version: '3'
 
 tasks:
+  default:
+    desc: Jalankan seluruh pemeriksaan lalu build binary (perintah tunggal)
+    cmds:
+      - task: check
+      - task: build
+
   dev:
     desc: Jalankan aplikasi untuk development (memuat konfigurasi dari .env)
     cmds:

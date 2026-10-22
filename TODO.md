@@ -27,6 +27,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 - [x] Lengkapi dokumentasi skema, langkah pengembangan, dan troubleshooting untuk skema/seed.
 - [ ] Integrasi Griphub chat telah dibuat sebagai fitur opsional; validasi dengan kredensial/model nyata setelah operator menyediakan keduanya.
 - [x] Sediakan `.env` lokal yang diabaikan Git dan `.env.example`; muat konfigurasi dotenv saat startup.
+- [x] Sediakan perintah tunggal `task` (default) yang menjalankan pemeriksaan lalu build, di samping `task dev`, `task build`, dan `task check`.
 
 ## Temuan saat peninjauan
 

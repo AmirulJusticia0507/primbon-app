@@ -9,6 +9,7 @@ Aplikasi web sederhana berbasis Go untuk menghitung kecocokan pasangan menurut n
 - Beranda: formulir hari dan pasaran dua orang.
 - Ramalan jodoh: menghitung jumlah neptu dan memetakan sisa pembagian dengan 7 ke kategori hasil.
 - Hari baik: menghitung hari, pasaran, dan neptu dari tanggal yang dipilih; tidak memberikan rekomendasi “baik/buruk”.
+- Pesan aplikasi menempatkan weton sebagai tradisi budaya, bukan penentu takdir; pengguna diajak menjalani hidup dengan ikhtiar dan tanggung jawab serta mengambil hikmah dari peristiwa.
 - Tanya AI: fitur chat opsional melalui Griphub Router; perlu API key dan slug model dari operator layanan.
 
 ## Teknologi
@@ -77,7 +78,7 @@ SELECT count(*) FROM petung; -- diharapkan 35
 task dev
 ```
 
-Perintah development utama adalah `task dev`; task tersebut menjalankan `go run .` dan membaca `.env`. Build binary untuk Windows dapat dilakukan dengan `task build` (menghasilkan `primbon-app.exe`). Gunakan `task --list` untuk daftar task, `task test` untuk test, dan `task check` untuk format, vet, dan test.
+Perintah development utama adalah `task dev`; task tersebut menjalankan `go run .` dan membaca `.env`. Build binary untuk Windows dapat dilakukan dengan `task build` (menghasilkan `primbon-app.exe`). Menggabungkan pemeriksaan dan build cukup dengan satu perintah: `task` (sama dengan `task default`), yang menjalankan `go vet ./...`, `go test ./...`, lalu `go build -o primbon-app.exe .`; perintah ini berhenti dengan error jika salah satu pemeriksaan gagal sehingga binary tidak tertimpa. Gunakan `task --list` untuk daftar task, `task test` untuk test, dan `task check` untuk vet dan test.
 
 Server lokal mendengarkan pada `http://localhost:8091` (atau port dari environment `PORT`). Buka `/` untuk formulir dan `/hari-baik` untuk melihat status fitur yang segera hadir. Endpoint `GET /health` memeriksa koneksi database dan mengembalikan HTTP 503 jika tidak sehat. Pastikan PostgreSQL dan tabel `petung` siap lebih dahulu; aplikasi akan berhenti jika koneksi database gagal. Saat menerima SIGINT/SIGTERM server menjalankan graceful shutdown dengan batas waktu 10 detik, kemudian koneksi database ditutup.
 
