@@ -15,6 +15,18 @@ import (
 // InitDB opens and verifies a PostgreSQL connection using required environment
 // variables: DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, and DB_SSLMODE.
 func InitDB() (*sql.DB, error) {
+	if databaseURL := strings.TrimSpace(os.Getenv("DATABASE_URL")); databaseURL != "" {
+		db, err := sql.Open("postgres", databaseURL)
+		if err != nil {
+			return nil, fmt.Errorf("membuka koneksi database: %w", err)
+		}
+		if err := db.Ping(); err != nil {
+			_ = db.Close()
+			return nil, fmt.Errorf("menguji koneksi database: %w", err)
+		}
+		return db, nil
+	}
+
 	config, err := databaseConfigFromEnv(os.Getenv)
 	if err != nil {
 		return nil, err

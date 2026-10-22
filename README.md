@@ -42,7 +42,7 @@ Konfigurasi PostgreSQL wajib diberikan melalui environment variable berikut (tid
 | `DB_NAME` | Nama database | `primbon_db` |
 | `DB_SSLMODE` | Mode SSL PostgreSQL (`disable`, `require`, `verify-ca`, `verify-full`, `allow`, `prefer`) | `disable` |
 
-Semua variabel divalidasi saat startup; aplikasi berhenti dengan pesan kesalahan jika konfigurasi tidak lengkap/tidak valid atau database tidak dapat dihubungi.
+Semua variabel divalidasi saat startup; aplikasi berhenti dengan pesan kesalahan jika konfigurasi tidak lengkap/tidak valid atau database tidak dapat dihubungi. Untuk penyedia managed PostgreSQL seperti Neon, aplikasi juga menerima `DATABASE_URL` (jika diisi, variabel ini menggantikan konfigurasi `DB_*`).
 
 Fitur Tanya AI tidak wajib untuk menjalankan aplikasi. Untuk mengaktifkannya, atur `AI_API_KEY` dan `AI_MODEL` pada environment proses aplikasi. Jangan masukkan key ke source control. Tanpa konfigurasi tersebut, endpoint AI memberi tahu bahwa fitur belum dikonfigurasi.
 
@@ -83,7 +83,7 @@ Server lokal mendengarkan pada `http://localhost:8091` (atau port dari environme
 
 ### Deployment ke Vercel
 
-Project menyertakan `vercel.json` untuk preset Go dan server membaca `PORT` dari environment Vercel (default lokal `8080`). Tautkan repository melalui dashboard Vercel atau jalankan `vercel link`, lalu tambahkan `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSLMODE`, `AI_API_KEY`, dan `AI_MODEL` pada Project Settings → Environment Variables sesuai kebutuhan. Database PostgreSQL harus dapat dijangkau dari Vercel (gunakan layanan managed dengan koneksi TLS, bukan `localhost`). File `.env` lokal tidak diunggah. Setelah project terhubung dan environment variables tersedia, deploy dengan `vercel --prod`.
+Project menyertakan `vercel.json` untuk preset Go dan server membaca `PORT` dari environment Vercel (default lokal `8091`). Tautkan repository melalui dashboard Vercel atau jalankan `vercel link`, lalu tambahkan `DATABASE_URL` (atau `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSLMODE`) serta `AI_API_KEY` dan `AI_MODEL` pada Project Settings → Environment Variables sesuai kebutuhan. Database PostgreSQL harus dapat dijangkau dari Vercel (gunakan layanan managed dengan koneksi TLS, bukan `localhost`). File `.env` lokal tidak diunggah. Setelah project terhubung dan environment variables tersedia, deploy dengan `vercel --prod`.
 
 ## Pemeriksaan
 
