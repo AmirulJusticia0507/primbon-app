@@ -25,7 +25,7 @@ AdminLTE CSS dan JavaScript dimuat dari CDN jsDelivr (tautan versi 3.2 di `views
 
 1. Go 1.24.5 atau versi kompatibel.
 2. PostgreSQL berjalan dan dapat diakses aplikasi.
-3. Database memiliki skema dan data `petung` yang disiapkan dari `db/schema.sql` dan `db/seed.sql`.
+3. PostgreSQL menyediakan database target. Tabel dan data `petung` dibuat dengan berkas yang ada di `db/` (lihat langkah di bawah).
 
 ## Menjalankan
 
@@ -53,6 +53,10 @@ $env:DB_NAME = "primbon_db"
 $env:DB_SSLMODE = "disable"
 ```
 
+### Skema dan seed
+
+`db/schema.sql` membuat tabel `petung` dengan kolom identity `id`, nama `hari` dan `pasaran`, serta nilai neptu masing-masing. CHECK constraint membatasi nama ke tujuh hari dan lima pasaran serta memastikan setiap nama memiliki nilai neptu yang sesuai. Constraint unik mencegah duplikasi pasangan hari-pasaran. `db/seed.sql` memasukkan semua 35 kombinasi; `ON CONFLICT` memperbarui nilai yang sudah ada sehingga aman dijalankan berulang.
+
 Siapkan tabel dan data awal secara berurutan (seed aman dijalankan ulang):
 
 ```sh
@@ -60,7 +64,13 @@ psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1 
 psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1 -f db/seed.sql
 ```
 
-Di PowerShell, jalankan `psql` dengan parameter nilai yang sama dari environment bila ekspansi variabel gaya shell POSIX tidak tersedia.
+Di PowerShell, gunakan parameter langsung, misalnya `psql -h $env:DB_HOST -p $env:DB_PORT -U $env:DB_USER -d $env:DB_NAME -v ON_ERROR_STOP=1 -f db/schema.sql`, lalu ulangi untuk `db/seed.sql`. `psql` akan meminta password jika belum tersedia melalui mekanisme aman lokal.
+
+Verifikasi jumlah data setelah seed:
+
+```sql
+SELECT count(*) FROM petung; -- diharapkan 35
+```
 
 ```sh
 go mod download
@@ -91,12 +101,14 @@ CI GitHub Actions menjalankan pemeriksaan `gofmt`, `go vet ./...`, dan `go test 
 └── views/                            # Template HTML
 ```
 
-## Catatan implementasi
+## Pengembangan dan troubleshooting
 
 - Pemetaan hasil memakai `total neptu % 7`: sisa 0 Lebu Ketiup Angin, 1 Wasesa Segara, 2 Tunggak Semi, 3 Satria Wibawa, 4 Sumur Sinaba, 5 Satria Wirang, dan 6 Bumi Kepetak. Ini mengikuti konvensi yang digunakan aplikasi dan merupakan tradisi budaya, bukan prediksi ilmiah.
+- Jika aplikasi gagal startup dengan pesan variabel wajib, pastikan keenam `DB_*` (host, port, user, password, nama database, SSL mode) sudah diatur di proses yang menjalankan aplikasi.
+- Jika koneksi gagal, pastikan PostgreSQL berjalan, host/port dapat dijangkau, database dan hak akses user tersedia, serta `DB_SSLMODE` sesuai konfigurasi server. Aplikasi memeriksa koneksi saat startup.
+- Jika health check `GET /health` memberi HTTP 503, koneksi database saat ini gagal; periksa ketersediaan PostgreSQL dan log aplikasi.
+- Jika query tidak menemukan kombinasi weton, pastikan kedua berkas SQL sudah dijalankan dan `SELECT count(*) FROM petung` menghasilkan 35. Seed dapat dijalankan kembali untuk memperbaiki/melengkapi baris.
+- Jika tampilan tidak bergaya, browser mungkin tidak dapat menjangkau CDN jsDelivr; HTML tetap tersedia tetapi AdminLTE tidak. Lihat bagian Konektivitas aset UI.
+- `models/primbon.go` masih mendefinisikan struktur domain yang belum digunakan handler.
 
-- Handler perhitungan saat ini mengabaikan error hasil query. Bila kombinasi tidak ditemukan, neptu dapat menjadi nol dan hasil tetap ditampilkan.
-- `models/primbon.go` mendefinisikan struktur, tetapi belum digunakan oleh handler.
-- Belum ada kebutuhan aset lokal khusus; mapping `/static` yang tidak digunakan telah dihapus. AdminLTE tetap dimuat dari CDN.
-- Hasil ramalan hanya menampilkan total neptu; nilai individual dan sisa belum ditampilkan.
-- Baca [`TODO.md`](TODO.md) untuk kekurangan dan prioritas perbaikan. Panduan kontribusi/agen ada di [`AGENTS.md`](AGENTS.md).
+Untuk kekurangan dan prioritas perbaikan, baca [`TODO.md`](TODO.md). Panduan kontribusi/agen ada di [`AGENTS.md`](AGENTS.md).
