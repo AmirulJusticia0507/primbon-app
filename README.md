@@ -91,6 +91,6 @@ Saat dokumentasi ini dibuat, perintah berhasil tetapi seluruh paket belum memili
 
 - Handler perhitungan saat ini mengabaikan error hasil query. Bila kombinasi tidak ditemukan, neptu dapat menjadi nol dan hasil tetap ditampilkan.
 - `models/primbon.go` mendefinisikan struktur, tetapi belum digunakan oleh handler.
-- Static file diarahkan ke `./static`, namun direktori tersebut belum ada dalam repositori.
+- Belum ada kebutuhan aset lokal khusus; mapping `/static` yang tidak digunakan telah dihapus. AdminLTE tetap dimuat dari CDN.
 - Hasil ramalan hanya menampilkan total neptu; nilai individual dan sisa belum ditampilkan.
 - Baca [`TODO.md`](TODO.md) untuk kekurangan dan prioritas perbaikan. Panduan kontribusi/agen ada di [`AGENTS.md`](AGENTS.md).

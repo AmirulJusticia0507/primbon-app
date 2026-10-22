@@ -9,8 +9,6 @@ import (
 func SetupRoutes(db *sql.DB) *fiber.App {
 	app := fiber.New()
 
-	app.Static("/static", "./static")
-
 	app.Get("/", controllers.Home)
 	app.Post("/ramal", func(c *fiber.Ctx) error {
 		return controllers.RamalJodoh(c, db)
