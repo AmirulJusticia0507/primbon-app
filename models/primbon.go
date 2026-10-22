@@ -1,11 +1,11 @@
 package models
 
 type Petung struct {
-	ID            int
-	Hari          string
-	NilaiHari     int
-	Pasaran       string
-	NilaiPasaran  int
+	ID           int
+	Hari         string
+	NilaiHari    int
+	Pasaran      string
+	NilaiPasaran int
 }
 
 type HasilPrimbon struct {
