@@ -68,10 +68,12 @@ Server mendengarkan pada `http://localhost:8080`. Buka `/` untuk formulir dan `/
 ## Pemeriksaan
 
 ```sh
+gofmt -l $(git ls-files '*.go')
+go vet ./...
 go test ./...
 ```
 
-Test mencakup kalkulasi dan handler; beberapa paket belum memiliki test tersendiri.
+CI GitHub Actions menjalankan pemeriksaan `gofmt`, `go vet ./...`, dan `go test ./...` pada push serta pull request. Test mencakup kalkulasi dan handler; beberapa paket belum memiliki test tersendiri.
 
 ## Struktur proyek
 

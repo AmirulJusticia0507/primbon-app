@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  go-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Verify formatting
+        shell: bash
+        run: |
+          files="$(gofmt -l $(git ls-files '*.go'))"
+          if [[ -n "$files" ]]; then
+            echo "Berkas Go belum diformat dengan gofmt:"
+            echo "$files"
+            exit 1
+          fi
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        run: go test ./...
