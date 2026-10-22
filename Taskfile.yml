@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  dev:
+    desc: Jalankan aplikasi untuk development (memuat konfigurasi dari .env)
+    cmds:
+      - go run .
+
+  build:
+    desc: Build binary aplikasi untuk OS/arsitektur saat ini
+    cmds:
+      - go build -o primbon-app.exe .
+
+  test:
+    desc: Jalankan seluruh test Go
+    cmds:
+      - go test ./...
+
+  check:
+    desc: Jalankan formatter check, vet, dan test
+    cmds:
+      - go vet ./...
+      - go test ./...

@@ -25,8 +25,9 @@ AdminLTE CSS dan Google Fonts dimuat dari CDN jsDelivr/Google Fonts, bukan disim
 ## Prasyarat
 
 1. Go 1.24.5 atau versi kompatibel.
-2. PostgreSQL berjalan dan dapat diakses aplikasi.
-3. PostgreSQL menyediakan database target. Tabel dan data `petung` dibuat dengan berkas yang ada di `db/` (lihat langkah di bawah).
+2. [Task](https://taskfile.dev/installation/) terpasang (`go-task`).
+3. PostgreSQL berjalan dan dapat diakses aplikasi.
+4. PostgreSQL menyediakan database target. Tabel dan data `petung` dibuat dengan berkas yang ada di `db/` (lihat langkah di bawah).
 
 ## Menjalankan
 
@@ -73,9 +74,10 @@ SELECT count(*) FROM petung; -- diharapkan 35
 ```
 
 ```sh
-go mod download
-go run .
+task dev
 ```
+
+Perintah development utama adalah `task dev`; task tersebut menjalankan `go run .` dan membaca `.env`. Build binary untuk Windows dapat dilakukan dengan `task build` (menghasilkan `primbon-app.exe`). Gunakan `task --list` untuk daftar task, `task test` untuk test, dan `task check` untuk format, vet, dan test.
 
 Server mendengarkan pada `http://localhost:8080`. Buka `/` untuk formulir dan `/hari-baik` untuk melihat status fitur yang segera hadir. Endpoint `GET /health` memeriksa koneksi database dan mengembalikan HTTP 503 jika tidak sehat. Pastikan PostgreSQL dan tabel `petung` siap lebih dahulu; aplikasi akan berhenti jika koneksi database gagal. Saat menerima SIGINT/SIGTERM server menjalankan graceful shutdown dengan batas waktu 10 detik, kemudian koneksi database ditutup.
 
