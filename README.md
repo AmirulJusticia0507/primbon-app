@@ -87,6 +87,8 @@ Saat dokumentasi ini dibuat, perintah berhasil tetapi seluruh paket belum memili
 
 ## Catatan implementasi
 
+- Pemetaan hasil memakai `total neptu % 7`: sisa 0 Lebu Ketiup Angin, 1 Wasesa Segara, 2 Tunggak Semi, 3 Satria Wibawa, 4 Sumur Sinaba, 5 Satria Wirang, dan 6 Bumi Kepetak. Ini mengikuti konvensi yang digunakan aplikasi dan merupakan tradisi budaya, bukan prediksi ilmiah.
+
 - Handler perhitungan saat ini mengabaikan error hasil query. Bila kombinasi tidak ditemukan, neptu dapat menjadi nol dan hasil tetap ditampilkan.
 - `models/primbon.go` mendefinisikan struktur, tetapi belum digunakan oleh handler.
 - Static file diarahkan ke `./static`, namun direktori tersebut belum ada dalam repositori.

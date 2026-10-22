@@ -1,8 +1,12 @@
 {{ define "content" }}
 <div class="container text-center">
   <h3 class="mb-3">🔮 Hasil Ramalan Jodoh</h3>
+  <p>Neptu orang pertama: <strong>{{ .NeptuL }}</strong></p>
+  <p>Neptu orang kedua: <strong>{{ .NeptuP }}</strong></p>
   <p>Total Neptu: <strong>{{ .Total }}</strong></p>
+  <p>Sisa pembagian total dengan 7: <strong>{{ .Sisa }}</strong></p>
   <p class="text-success h4">{{ .Hasil }}</p>
+  <p class="text-muted">Hasil ini merupakan bagian dari tradisi budaya primbon Jawa, bukan prediksi ilmiah atau nasihat profesional.</p>
   <a href="/" class="btn btn-secondary mt-3">Kembali</a>
 </div>
 {{ end }}

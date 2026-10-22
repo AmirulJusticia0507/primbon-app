@@ -14,7 +14,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 
 - [x] Pisahkan kalkulasi domain dari handler agar logika mudah diuji; gunakan model `Petung`/`HasilPrimbon` atau hapus tipe yang tidak dipakai.
 - [ ] Tambahkan halaman “Hari Baik” yang benar-benar menghitung hasil atau ubah penamaan navigasinya agar status coming soon jelas.
-- [ ] Tampilkan neptu masing-masing, total, dan sisa perhitungan pada halaman hasil; pastikan pemetaan sisa 0–6 terdokumentasi dan benar menurut aturan yang dipilih.
+- [x] Tampilkan neptu masing-masing, total, dan sisa perhitungan pada halaman hasil; pastikan pemetaan sisa 0–6 terdokumentasi dan benar menurut aturan yang dipilih.
 - [ ] Tambahkan navigasi dasar, label form yang terhubung ke input, dan pesan validasi/error yang mudah dipahami.
 - [ ] Putuskan apakah static assets memang diperlukan: tambahkan direktori `static/` dan aset lokal, atau hapus mapping `/static` yang belum digunakan.
 - [ ] Tambahkan logging dan shutdown/penutupan koneksi database dengan tertib.
