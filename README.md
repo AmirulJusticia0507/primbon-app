@@ -21,7 +21,7 @@ Aplikasi web sederhana berbasis Go untuk menghitung kecocokan pasangan menurut n
 
 1. Go 1.24.5 atau versi kompatibel.
 2. PostgreSQL berjalan dan dapat diakses aplikasi.
-3. Database memiliki tabel `petung` berisi kolom `hari`, `pasaran`, `nilai_hari`, dan `nilai_pasaran`, dengan satu baris untuk setiap kombinasi hari/pasaran (35 kombinasi). Belum tersedia berkas migrasi atau seed; siapkan skema dan data tersebut sebelum menjalankan aplikasi.
+3. Database memiliki skema dan data `petung` yang disiapkan dari `db/schema.sql` dan `db/seed.sql`.
 
 ## Menjalankan
 
@@ -48,6 +48,15 @@ $env:DB_PASSWORD = "isi-password-lokal"
 $env:DB_NAME = "primbon_db"
 $env:DB_SSLMODE = "disable"
 ```
+
+Siapkan tabel dan data awal secara berurutan (seed aman dijalankan ulang):
+
+```sh
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1 -f db/schema.sql
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1 -f db/seed.sql
+```
+
+Di PowerShell, jalankan `psql` dengan parameter nilai yang sama dari environment bila ekspansi variabel gaya shell POSIX tidak tersedia.
 
 ```sh
 go mod download

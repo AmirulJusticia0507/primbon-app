@@ -4,8 +4,8 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 
 ## Prioritas tinggi
 
-- [ ] Pindahkan konfigurasi PostgreSQL (host, port, user, password, nama database, SSL) ke environment variable; validasi konfigurasi saat startup dan hindari kredensial default di source.
-- [ ] Tambahkan skema database dan seed yang terdokumentasi/berulang untuk tabel `petung`, termasuk 35 kombinasi hari-pasaran dan validasi nilai neptu.
+- [x] Pindahkan konfigurasi PostgreSQL (host, port, user, password, nama database, SSL) ke environment variable; validasi konfigurasi saat startup dan hindari kredensial default di source.
+- [x] Tambahkan skema database dan seed yang terdokumentasi/berulang untuk tabel `petung`, termasuk 35 kombinasi hari-pasaran dan validasi nilai neptu.
 - [ ] Periksa semua error `QueryRow(...).Scan(...)` dalam handler. Kembalikan respons kesalahan yang sesuai saat database gagal atau kombinasi tidak tersedia.
 - [ ] Validasi input hari dan pasaran menggunakan daftar nilai yang diizinkan; jangan menghitung hasil dari input kosong/tidak valid.
 - [ ] Tambahkan unit test untuk pemetaan sisa neptu ke hasil serta test handler untuk input valid dan kondisi gagal database.
@@ -29,6 +29,6 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 ## Temuan saat peninjauan
 
 - `go test ./...` berhasil pada saat peninjauan, tetapi tidak ada test di paket mana pun.
-- Koneksi PostgreSQL saat ini hard-coded di `config/database.go`; startup langsung gagal jika database tidak dapat dihubungi.
-- Tidak ditemukan file migrasi, seed, atau skema database dalam proyek.
+- Konfigurasi koneksi PostgreSQL sekarang menggunakan environment variable; startup melaporkan error jika konfigurasi atau koneksi gagal.
+- Skema dan seed `petung` tersedia di `db/schema.sql` dan `db/seed.sql`.
 - Query perhitungan tidak memeriksa error `Scan`; halaman hari baik hanya placeholder.
