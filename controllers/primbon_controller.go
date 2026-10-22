@@ -33,6 +33,9 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 	pasaranL := c.FormValue("pasaran_laki")
 	hariP := c.FormValue("hari_perempuan")
 	pasaranP := c.FormValue("pasaran_perempuan")
+	if !hariValid(hariL) || !hariValid(hariP) || !pasaranValid(pasaranL) || !pasaranValid(pasaranP) {
+		return c.Status(fiber.StatusBadRequest).SendString("Pilih hari dan pasaran yang valid untuk kedua orang.")
+	}
 
 	var neptuL, neptuP int
 	if err := db.QueryRow(`SELECT nilai_hari + nilai_pasaran FROM petung WHERE hari=$1 AND pasaran=$2`, hariL, pasaranL).Scan(&neptuL); err != nil {
@@ -71,6 +74,24 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 		"Total":  total,
 		"Sisa":   sisa,
 	})
+}
+
+func hariValid(hari string) bool {
+	switch hari {
+	case "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu":
+		return true
+	default:
+		return false
+	}
+}
+
+func pasaranValid(pasaran string) bool {
+	switch pasaran {
+	case "Legi", "Pahing", "Pon", "Wage", "Kliwon":
+		return true
+	default:
+		return false
+	}
 }
 
 func petungQueryError(c *fiber.Ctx, err error) error {

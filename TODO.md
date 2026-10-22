@@ -7,7 +7,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 - [x] Pindahkan konfigurasi PostgreSQL (host, port, user, password, nama database, SSL) ke environment variable; validasi konfigurasi saat startup dan hindari kredensial default di source.
 - [x] Tambahkan skema database dan seed yang terdokumentasi/berulang untuk tabel `petung`, termasuk 35 kombinasi hari-pasaran dan validasi nilai neptu.
 - [x] Periksa semua error `QueryRow(...).Scan(...)` dalam handler. Kembalikan respons kesalahan yang sesuai saat database gagal atau kombinasi tidak tersedia.
-- [ ] Validasi input hari dan pasaran menggunakan daftar nilai yang diizinkan; jangan menghitung hasil dari input kosong/tidak valid.
+- [x] Validasi input hari dan pasaran menggunakan daftar nilai yang diizinkan; jangan menghitung hasil dari input kosong/tidak valid.
 - [ ] Tambahkan unit test untuk pemetaan sisa neptu ke hasil serta test handler untuk input valid dan kondisi gagal database.
 
 ## Prioritas menengah
