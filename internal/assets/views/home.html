@@ -1,0 +1,111 @@
+{{ define "content" }}
+<style>
+  .hero { position: relative; overflow: hidden; padding: clamp(48px, 8vw, 96px) 24px 74px; color: #fff; background: radial-gradient(ellipse at 82% 16%, rgba(216,185,120,.17), transparent 32%), linear-gradient(130deg, #102b25, #214a3d); }
+  .hero::after { position: absolute; right: -100px; bottom: -260px; width: 500px; height: 500px; border: 1px solid rgba(216,185,120,.18); border-radius: 50%; box-shadow: 0 0 0 35px rgba(216,185,120,.035), 0 0 0 75px rgba(216,185,120,.025); content: ''; }
+  .hero-inner, .form-wrap { position: relative; z-index: 1; width: min(100%, 920px); margin: auto; }
+  .eyebrow { color: #e2c98e; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .hero h1 { max-width: 700px; margin: 16px 0; font: 600 clamp(36px, 6vw, 62px)/1.1 'Playfair Display', Georgia, serif; }
+  .hero p { max-width: 560px; margin: 0; color: #d3dfd8; font-size: 16px; line-height: 1.75; }
+  .form-wrap { margin-top: -34px; padding: 0 20px 68px; }
+  .form-card { padding: clamp(24px, 5vw, 44px); border: 1px solid rgba(24,59,50,.08); border-radius: 18px; background: #fff; box-shadow: 0 18px 55px rgba(22,44,36,.1); }
+  .form-title { margin: 0; color: #1a342b; font: 600 25px 'Playfair Display', Georgia, serif; }
+  .form-intro { margin: 7px 0 28px; color: #78857d; font-size: 14px; }
+  .person-card { height: 100%; padding: 20px; border: 1px solid #e8e9e2; border-radius: 12px; background: #fbfaf7; }
+  .person-title { margin-bottom: 18px; color: #254638; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .field-label { display: block; margin: 0 0 7px; color: #526159; font-size: 12px; font-weight: 600; }
+  .weton-select { width: 100%; height: 46px; margin-bottom: 17px; padding: 0 12px; border: 1px solid #dfe3dc; border-radius: 8px; color: #24332e; background: #fff; font: inherit; }
+  .weton-select:focus { border-color: #507c68; outline: 3px solid rgba(80,124,104,.13); }
+  .submit-btn { display: block; width: 100%; margin-top: 24px; padding: 14px 20px; border: 0; border-radius: 8px; color: #fff; background: #1d493a; font: 600 14px 'DM Sans', sans-serif; cursor: pointer; transition: background .2s, transform .2s; }
+  .submit-btn:hover { transform: translateY(-1px); background: #12372b; }
+  .form-error { margin-bottom: 22px; padding: 13px 16px; border-radius: 8px; color: #843f32; background: #fff0eb; font-size: 14px; }
+  .ai-section { padding: 0 20px 72px; }
+  .ai-card { width: min(100%, 920px); margin: auto; padding: clamp(24px, 5vw, 38px); border: 1px solid #e6e5dc; border-radius: 16px; background: #fff; }
+  .ai-card h2 { color: #183b32; font: 600 25px 'Playfair Display', Georgia, serif; }
+  .ai-note { color: #7b877f; font-size: 13px; line-height: 1.7; }
+  .ai-form { display: flex; gap: 10px; margin-top: 18px; }
+  .ai-input { flex: 1; min-width: 0; padding: 13px 14px; border: 1px solid #dfe3dc; border-radius: 8px; font: inherit; }
+  .ai-submit { padding: 0 20px; border: 0; border-radius: 8px; color: white; background: #1d493a; font-weight: 600; }
+  .ai-reply { display: none; margin-top: 18px; padding: 16px; border-radius: 8px; color: #34483e; background: #f5f6f1; white-space: pre-wrap; }
+  @media (max-width: 520px) { .ai-form { flex-direction: column; } .ai-submit { min-height: 46px; } }
+</style>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Mengenal tradisi weton</div>
+    <h1>Harmoni dalam hitungan Jawa.</h1>
+    <p>Jelajahi kecocokan neptu berdasarkan hari dan pasaran kelahiran, sebuah tradisi budaya yang diwariskan lintas generasi.</p>
+  </div>
+</section>
+<div class="form-wrap">
+  <div class="form-card">
+    {{ if .Error }}<div class="form-error" role="alert">{{ .Error }}</div>{{ end }}
+    <h2 class="form-title">Hitung kecocokan weton</h2>
+    <p class="form-intro">Masukkan hari dan pasaran untuk kedua orang.</p>
+    <form action="/ramal" method="POST">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="person-card">
+            <h3 class="person-title">Orang pertama</h3>
+            <label class="field-label" for="hari_laki">Hari lahir</label>
+            <select id="hari_laki" name="hari_laki" class="weton-select" required>
+              <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+            </select>
+            <label class="field-label" for="pasaran_laki">Pasaran</label>
+            <select id="pasaran_laki" name="pasaran_laki" class="weton-select" required>
+              <option>Legi</option><option>Pahing</option><option>Pon</option><option>Wage</option><option>Kliwon</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="person-card">
+            <h3 class="person-title">Orang kedua</h3>
+            <label class="field-label" for="hari_perempuan">Hari lahir</label>
+            <select id="hari_perempuan" name="hari_perempuan" class="weton-select" required>
+              <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+            </select>
+            <label class="field-label" for="pasaran_perempuan">Pasaran</label>
+            <select id="pasaran_perempuan" name="pasaran_perempuan" class="weton-select" required>
+              <option>Legi</option><option>Pahing</option><option>Pon</option><option>Wage</option><option>Kliwon</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="submit-btn" type="submit">Lihat hasil perhitungan <span aria-hidden="true">→</span></button>
+    </form>
+  </div>
+</div>
+<section class="ai-section" id="tanya-ai">
+  <div class="ai-card">
+    <div class="eyebrow">Asisten berbasis AI · opsional</div>
+    <h2>Tanya seputar tradisi weton</h2>
+    <p class="ai-note">Jawaban AI dapat keliru dan bukan tafsir resmi tradisi atau nasihat profesional. Jangan kirimkan informasi pribadi.</p>
+    <form class="ai-form" id="ai-form">
+      <label class="sr-only" for="ai-message">Pesan untuk asisten AI</label>
+      <input class="ai-input" id="ai-message" name="message" placeholder="Contoh: Apa arti neptu dalam tradisi Jawa?" maxlength="2000" required>
+      <button class="ai-submit" type="submit">Tanya</button>
+    </form>
+    <div class="ai-reply" id="ai-reply" role="status" aria-live="polite"></div>
+  </div>
+</section>
+<script>
+  document.getElementById('ai-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const button = this.querySelector('button');
+    const output = document.getElementById('ai-reply');
+    button.disabled = true;
+    output.style.display = 'block';
+    output.textContent = 'Sedang menyiapkan jawaban…';
+    try {
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: document.getElementById('ai-message').value })
+      });
+      const result = await response.json();
+      output.textContent = response.ok ? result.reply : result.error;
+    } catch (_) {
+      output.textContent = 'Tidak dapat menghubungi layanan saat ini. Coba lagi nanti.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
+{{ end }}

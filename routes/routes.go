@@ -2,12 +2,15 @@ package routes
 
 import (
 	"database/sql"
+	"io/fs"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"primbon-app/controllers"
+	"primbon-app/internal/assets"
 )
 
 func SetupRoutes(db *sql.DB) *fiber.App {
@@ -29,7 +32,19 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 		},
 	})
 
-	app.Static("/static", "./static")
+	staticFiles, err := fs.Sub(assets.Files, "static")
+	if err != nil {
+		log.Printf("gagal memuat static assets: %v", err)
+	} else {
+		app.Get("/static/*", func(c *fiber.Ctx) error {
+			filePath := strings.TrimPrefix(c.Path(), "/static/")
+			data, err := fs.ReadFile(staticFiles, filePath)
+			if err != nil {
+				return fiber.ErrNotFound
+			}
+			return c.Send(data)
+		})
+	}
 	app.Get("/", controllers.Home)
 	app.Post("/ramal", func(c *fiber.Ctx) error {
 		if db == nil {

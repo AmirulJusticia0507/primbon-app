@@ -5,13 +5,20 @@ import (
 	"database/sql"
 	"errors"
 	"html/template"
+	"io/fs"
 	"log"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"primbon-app/internal/assets"
 )
 
 func renderHTML(c *fiber.Ctx, tmpl string, data interface{}) error {
-	t, err := template.ParseFiles("views/layouts/base.html", tmpl)
+	files, err := fs.Sub(assets.Files, "views")
+	if err != nil {
+		return err
+	}
+	t, err := template.ParseFS(files, "layouts/base.html", strings.TrimPrefix(tmpl, "views/"))
 	if err != nil {
 		return err
 	}

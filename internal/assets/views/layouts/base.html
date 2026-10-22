@@ -1,0 +1,53 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b32">
+  <title>{{ .Title }}</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --forest: #183b32; --forest-deep: #102b25; --gold: #d8b978; --paper: #f7f5ef; --ink: #24332e; --muted: #718079; --line: #e6e5dc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: 'DM Sans', sans-serif; }
+    .site-nav { min-height: 76px; padding: 0 clamp(20px, 7vw, 112px); display: flex; align-items: center; justify-content: space-between; background: var(--forest-deep); color: #fff; }
+    .brand { display: flex; gap: 12px; align-items: center; color: #fff; text-decoration: none; }
+    .brand:hover { color: var(--gold); }
+    .brand-mark { width: 38px; height: 38px; }
+    .brand-name { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 20px; letter-spacing: .02em; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { color: #e8eee9; font-size: 14px; text-decoration: none; }
+    .nav-links a:hover { color: var(--gold); }
+    .soon { margin-left: 5px; padding: 4px 8px; border: 1px solid #82978c; border-radius: 20px; color: #dfe7dc; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+    main { min-height: calc(100vh - 150px); }
+    .site-footer { padding: 24px; text-align: center; color: var(--muted); font-size: 12px; }
+    .content { padding: 0 !important; }
+    @media (max-width: 520px) { .site-nav { min-height: 68px; padding: 0 18px; } .brand-name { font-size: 17px; } .nav-links { gap: 12px; } .nav-links a { font-size: 12px; } .soon { display: none; } }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+</head>
+<body>
+<header class="site-nav">
+  <a class="brand" href="/">
+    <img class="brand-mark" src="/static/favicon.svg" alt="">
+    <span class="brand-name">Primbon Jawa</span>
+  </a>
+  <nav class="nav-links" aria-label="Navigasi utama">
+    <a href="/">Beranda</a>
+    <a href="/#tanya-ai">Tanya AI</a>
+    <a href="/hari-baik">Hari Baik <span class="soon">Segera hadir</span></a>
+  </nav>
+</header>
+<main>
+    <section class="content">
+      {{ block "content" . }}{{ end }}
+    </section>
+</main>
+<footer class="site-footer">Warisan budaya untuk direnungkan, bukan ramalan ilmiah.</footer>
+</body>
+</html>
+{{ end }}
