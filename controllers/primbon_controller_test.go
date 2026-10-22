@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
@@ -32,6 +33,15 @@ func TestHitungHasilSemuaSisa(t *testing.T) {
 }
 
 func TestRamalJodohInputTidakValid(t *testing.T) {
+	workingDir, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chdir(".."); err != nil {
+		t.Fatal(err)
+	}
+	defer os.Chdir(workingDir)
+
 	app := fiber.New()
 	app.Post("/ramal", func(c *fiber.Ctx) error { return RamalJodoh(c, nil) })
 	request := httptest.NewRequest("POST", "/ramal", strings.NewReader("hari_laki=Invalid"))
