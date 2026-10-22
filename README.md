@@ -8,7 +8,7 @@ Aplikasi web sederhana berbasis Go untuk menghitung kecocokan pasangan menurut n
 
 - Beranda: formulir hari dan pasaran dua orang.
 - Ramalan jodoh: menghitung jumlah neptu dan memetakan sisa pembagian dengan 7 ke kategori hasil.
-- Hari baik: halaman placeholder; kalkulasi belum tersedia.
+- Hari baik: halaman berstatus “Segera hadir”; kalkulasi dan rekomendasi hari belum tersedia.
 
 ## Teknologi
 
