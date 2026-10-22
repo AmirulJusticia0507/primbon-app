@@ -34,7 +34,7 @@ func main() {
 	app := routes.SetupRoutes(db)
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8091"
 	}
 	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
