@@ -9,6 +9,7 @@ Aplikasi web sederhana berbasis Go untuk menghitung kecocokan pasangan menurut n
 - Beranda: formulir hari dan pasaran dua orang.
 - Ramalan jodoh: menghitung jumlah neptu dan memetakan sisa pembagian dengan 7 ke kategori hasil.
 - Hari baik: halaman berstatus “Segera hadir”; kalkulasi dan rekomendasi hari belum tersedia.
+- Tanya AI: fitur chat opsional melalui Griphub Router; perlu API key dan slug model dari operator layanan.
 
 ## Teknologi
 
@@ -41,6 +42,8 @@ Konfigurasi PostgreSQL wajib diberikan melalui environment variable berikut (tid
 | `DB_SSLMODE` | Mode SSL PostgreSQL (`disable`, `require`, `verify-ca`, `verify-full`, `allow`, `prefer`) | `disable` |
 
 Semua variabel divalidasi saat startup; aplikasi berhenti dengan pesan kesalahan jika konfigurasi tidak lengkap/tidak valid atau database tidak dapat dihubungi.
+
+Fitur Tanya AI tidak wajib untuk menjalankan aplikasi. Untuk mengaktifkannya, atur `AI_API_KEY` dan `AI_MODEL` pada environment proses aplikasi. Jangan masukkan key ke source control. Tanpa konfigurasi tersebut, endpoint AI memberi tahu bahwa fitur belum dikonfigurasi.
 
 Contoh PowerShell untuk sesi terminal saat ini:
 

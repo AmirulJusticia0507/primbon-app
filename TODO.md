@@ -25,6 +25,7 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 - [x] Tambahkan pipeline CI untuk `gofmt`, `go vet ./...`, dan `go test ./...`.
 - [x] Dokumentasikan kebutuhan konektivitas CDN untuk dependensi UI; AdminLTE tetap disajikan dari CDN.
 - [x] Lengkapi dokumentasi skema, langkah pengembangan, dan troubleshooting untuk skema/seed.
+- [ ] Integrasi Griphub chat telah dibuat sebagai fitur opsional; validasi dengan kredensial/model nyata setelah operator menyediakan keduanya.
 
 ## Temuan saat peninjauan
 

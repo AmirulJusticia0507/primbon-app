@@ -18,6 +18,15 @@
   .submit-btn { display: block; width: 100%; margin-top: 24px; padding: 14px 20px; border: 0; border-radius: 8px; color: #fff; background: #1d493a; font: 600 14px 'DM Sans', sans-serif; cursor: pointer; transition: background .2s, transform .2s; }
   .submit-btn:hover { transform: translateY(-1px); background: #12372b; }
   .form-error { margin-bottom: 22px; padding: 13px 16px; border-radius: 8px; color: #843f32; background: #fff0eb; font-size: 14px; }
+  .ai-section { padding: 0 20px 72px; }
+  .ai-card { width: min(100%, 920px); margin: auto; padding: clamp(24px, 5vw, 38px); border: 1px solid #e6e5dc; border-radius: 16px; background: #fff; }
+  .ai-card h2 { color: #183b32; font: 600 25px 'Playfair Display', Georgia, serif; }
+  .ai-note { color: #7b877f; font-size: 13px; line-height: 1.7; }
+  .ai-form { display: flex; gap: 10px; margin-top: 18px; }
+  .ai-input { flex: 1; min-width: 0; padding: 13px 14px; border: 1px solid #dfe3dc; border-radius: 8px; font: inherit; }
+  .ai-submit { padding: 0 20px; border: 0; border-radius: 8px; color: white; background: #1d493a; font-weight: 600; }
+  .ai-reply { display: none; margin-top: 18px; padding: 16px; border-radius: 8px; color: #34483e; background: #f5f6f1; white-space: pre-wrap; }
+  @media (max-width: 520px) { .ai-form { flex-direction: column; } .ai-submit { min-height: 46px; } }
 </style>
 <section class="hero">
   <div class="hero-inner">
@@ -64,4 +73,39 @@
     </form>
   </div>
 </div>
+<section class="ai-section" id="tanya-ai">
+  <div class="ai-card">
+    <div class="eyebrow">Asisten berbasis AI · opsional</div>
+    <h2>Tanya seputar tradisi weton</h2>
+    <p class="ai-note">Jawaban AI dapat keliru dan bukan tafsir resmi tradisi atau nasihat profesional. Jangan kirimkan informasi pribadi.</p>
+    <form class="ai-form" id="ai-form">
+      <label class="sr-only" for="ai-message">Pesan untuk asisten AI</label>
+      <input class="ai-input" id="ai-message" name="message" placeholder="Contoh: Apa arti neptu dalam tradisi Jawa?" maxlength="2000" required>
+      <button class="ai-submit" type="submit">Tanya</button>
+    </form>
+    <div class="ai-reply" id="ai-reply" role="status" aria-live="polite"></div>
+  </div>
+</section>
+<script>
+  document.getElementById('ai-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const button = this.querySelector('button');
+    const output = document.getElementById('ai-reply');
+    button.disabled = true;
+    output.style.display = 'block';
+    output.textContent = 'Sedang menyiapkan jawaban…';
+    try {
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: document.getElementById('ai-message').value })
+      });
+      const result = await response.json();
+      output.textContent = response.ok ? result.reply : result.error;
+    } catch (_) {
+      output.textContent = 'Tidak dapat menghubungi layanan saat ini. Coba lagi nanti.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
 {{ end }}

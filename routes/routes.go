@@ -3,6 +3,7 @@ package routes
 import (
 	"database/sql"
 	"log"
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -34,6 +35,9 @@ func SetupRoutes(db *sql.DB) *fiber.App {
 		return controllers.RamalJodoh(c, db)
 	})
 	app.Get("/hari-baik", controllers.HariBaik)
+	app.Post("/api/ai/chat", func(c *fiber.Ctx) error {
+		return controllers.AIChat(c, os.Getenv("AI_API_KEY"), os.Getenv("AI_MODEL"))
+	})
 	app.Get("/favicon.svg", func(c *fiber.Ctx) error {
 		return c.Redirect("/static/favicon.svg", fiber.StatusMovedPermanently)
 	})
