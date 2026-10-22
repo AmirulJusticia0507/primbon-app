@@ -34,7 +34,11 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 	hariP := c.FormValue("hari_perempuan")
 	pasaranP := c.FormValue("pasaran_perempuan")
 	if !hariValid(hariL) || !hariValid(hariP) || !pasaranValid(pasaranL) || !pasaranValid(pasaranP) {
-		return c.Status(fiber.StatusBadRequest).SendString("Pilih hari dan pasaran yang valid untuk kedua orang.")
+		c.Status(fiber.StatusBadRequest)
+		return renderHTML(c, "views/home.html", fiber.Map{
+			"Title": "Ramalan Primbon Jawa",
+			"Error": "Pilih hari dan pasaran yang valid untuk kedua orang.",
+		})
 	}
 
 	var neptuL, neptuP int
@@ -99,10 +103,18 @@ func pasaranValid(pasaran string) bool {
 
 func petungQueryError(c *fiber.Ctx, err error) error {
 	if errors.Is(err, sql.ErrNoRows) {
-		return c.Status(fiber.StatusBadRequest).SendString("Kombinasi hari dan pasaran tidak ditemukan. Periksa kembali data weton.")
+		c.Status(fiber.StatusBadRequest)
+		return renderHTML(c, "views/home.html", fiber.Map{
+			"Title": "Ramalan Primbon Jawa",
+			"Error": "Kombinasi hari dan pasaran tidak ditemukan. Pastikan data petung sudah disiapkan.",
+		})
 	}
 	log.Printf("gagal mengambil data petung: %v", err)
-	return c.Status(fiber.StatusInternalServerError).SendString("Terjadi kesalahan saat menghitung weton. Silakan coba lagi nanti.")
+	c.Status(fiber.StatusInternalServerError)
+	return renderHTML(c, "views/home.html", fiber.Map{
+		"Title": "Ramalan Primbon Jawa",
+		"Error": "Data perhitungan tidak dapat diakses saat ini. Silakan coba lagi nanti.",
+	})
 }
 
 func HariBaik(c *fiber.Ctx) error {

@@ -1,30 +1,31 @@
 {{ define "content" }}
 <div class="container">
   <h2>🔮 Ramalan Jodoh Berdasarkan Primbon Jawa</h2>
+  {{ if .Error }}<div class="alert alert-danger" role="alert">{{ .Error }}</div>{{ end }}
   <form action="/ramal" method="POST">
     <div class="row">
       <div class="col-md-6">
         <h4>Data Pria</h4>
-        <label>Hari</label>
-        <select name="hari_laki" class="form-control">
+         <label for="hari_laki">Hari</label>
+         <select id="hari_laki" name="hari_laki" class="form-control" required>
           <option>Senin</option><option>Selasa</option><option>Rabu</option>
           <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
         </select>
-        <label>Pasaran</label>
-        <select name="pasaran_laki" class="form-control">
+         <label for="pasaran_laki">Pasaran</label>
+         <select id="pasaran_laki" name="pasaran_laki" class="form-control" required>
           <option>Legi</option><option>Pahing</option><option>Pon</option><option>Wage</option><option>Kliwon</option>
         </select>
       </div>
 
       <div class="col-md-6">
         <h4>Data Wanita</h4>
-        <label>Hari</label>
-        <select name="hari_perempuan" class="form-control">
+         <label for="hari_perempuan">Hari</label>
+         <select id="hari_perempuan" name="hari_perempuan" class="form-control" required>
           <option>Senin</option><option>Selasa</option><option>Rabu</option>
           <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
         </select>
-        <label>Pasaran</label>
-        <select name="pasaran_perempuan" class="form-control">
+         <label for="pasaran_perempuan">Pasaran</label>
+         <select id="pasaran_perempuan" name="pasaran_perempuan" class="form-control" required>
           <option>Legi</option><option>Pahing</option><option>Pon</option><option>Wage</option><option>Kliwon</option>
         </select>
       </div>
