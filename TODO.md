@@ -8,11 +8,11 @@ Daftar ini mencerminkan kondisi repositori saat ditinjau. Urutan menunjukkan pri
 - [x] Tambahkan skema database dan seed yang terdokumentasi/berulang untuk tabel `petung`, termasuk 35 kombinasi hari-pasaran dan validasi nilai neptu.
 - [x] Periksa semua error `QueryRow(...).Scan(...)` dalam handler. Kembalikan respons kesalahan yang sesuai saat database gagal atau kombinasi tidak tersedia.
 - [x] Validasi input hari dan pasaran menggunakan daftar nilai yang diizinkan; jangan menghitung hasil dari input kosong/tidak valid.
-- [ ] Tambahkan unit test untuk pemetaan sisa neptu ke hasil serta test handler untuk input valid dan kondisi gagal database.
+- [ ] Lengkapi test handler untuk input valid dan kondisi gagal database. (Pemetaan seluruh sisa 0–6 dan penolakan input tidak valid sudah diuji.)
 
 ## Prioritas menengah
 
-- [ ] Pisahkan kalkulasi domain dari handler agar logika mudah diuji; gunakan model `Petung`/`HasilPrimbon` atau hapus tipe yang tidak dipakai.
+- [x] Pisahkan kalkulasi domain dari handler agar logika mudah diuji; gunakan model `Petung`/`HasilPrimbon` atau hapus tipe yang tidak dipakai.
 - [ ] Tambahkan halaman “Hari Baik” yang benar-benar menghitung hasil atau ubah penamaan navigasinya agar status coming soon jelas.
 - [ ] Tampilkan neptu masing-masing, total, dan sisa perhitungan pada halaman hasil; pastikan pemetaan sisa 0–6 terdokumentasi dan benar menurut aturan yang dipilih.
 - [ ] Tambahkan navigasi dasar, label form yang terhubung ke input, dan pesan validasi/error yang mudah dipahami.

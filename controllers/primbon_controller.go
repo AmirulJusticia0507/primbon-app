@@ -45,10 +45,20 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 		return petungQueryError(c, err)
 	}
 
-	total := neptuL + neptuP
-	sisa := total % 7
-	var hasil string
+	total, sisa, hasil := HitungHasil(neptuL, neptuP)
+	return renderHTML(c, "views/ramalan.html", fiber.Map{
+		"Title":  "Hasil Ramalan Jodoh",
+		"Hasil":  hasil,
+		"NeptuL": neptuL,
+		"NeptuP": neptuP,
+		"Total":  total,
+		"Sisa":   sisa,
+	})
+}
 
+func HitungHasil(neptuL, neptuP int) (total, sisa int, hasil string) {
+	total = neptuL + neptuP
+	sisa = total % 7
 	switch sisa {
 	case 1:
 		hasil = "Wasesa Segara (baik, pasangan saling melengkapi)"
@@ -66,14 +76,7 @@ func RamalJodoh(c *fiber.Ctx, db *sql.DB) error {
 		hasil = "Lebu Ketiup Angin (buruk, sering bertengkar)"
 	}
 
-	return renderHTML(c, "views/ramalan.html", fiber.Map{
-		"Title":  "Hasil Ramalan Jodoh",
-		"Hasil":  hasil,
-		"NeptuL": neptuL,
-		"NeptuP": neptuP,
-		"Total":  total,
-		"Sisa":   sisa,
-	})
+	return total, sisa, hasil
 }
 
 func hariValid(hari string) bool {
